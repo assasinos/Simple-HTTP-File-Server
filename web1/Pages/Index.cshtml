@@ -1,0 +1,87 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    
+.item-wrapper {
+    background-color: #f4f4f4;
+    padding: 10px 0px 10px 30px;
+    border: 1px solid #a4a4a4;
+}
+
+
+th {
+    border: 1px solid #a4a4a4;
+    text-align: center;
+}
+
+td {
+    border: 1px solid #a4a4a4;
+}
+
+</style>
+
+
+<div class="main-wrapper">
+    <form method = "post" asp-page-handler = "Upload" enctype="multipart/form-data">
+        <p>
+            <label asp-for = "fileitem.fileInfo">Upload File:</label>
+            <input type= "file" asp-for = "fileitem.fileInfo"/>
+            <input type="submit" value = "Upload"/>
+        </p>
+    </form>
+
+
+    <div class = "item-wrapper">
+        <table>
+            <tr>
+                <th>File Name</th>
+                <th>Size</th>
+                <th>Delete</th>
+                <th>Preview</th>
+            </tr>
+
+            @foreach(var file in Model.fileInfos)
+            {
+                <tr>
+                    <td>
+                            <a asp-page = "/DownloadPage" asp-route-file="@file.Name" asp-route-extension = "@file.Extension" >@file.Name</a>
+
+                   </td>
+                    <td>
+                        @if(file.Length < 1024)
+                        {
+                            <code>@(file.Length)B</code> 
+                        }
+                        else if(file.Length < 1048576)
+                        {
+                            <code>@(file.Length /1024)KB</code>
+                        }
+                        else
+                        {
+                            <code>@(file.Length / 1048576)MB</code> 
+                        }
+                    </td>
+                    <td>
+                        <form method = "post" asp-page-handler = "Delete" >
+                            <input type = "hidden" asp-for = "delete.filename" value = "@file.Name">
+                            <input type = "submit" value = "Delete">
+                        </form>
+                    </td>
+                                        <td>
+                    @if(Model.images.Contains(file.Extension))
+                    {
+                        <a target="_blank" href = "~/Files/@file.Name">Preview in browser</a>
+                    }
+                    </td>
+                </tr>
+
+            
+            }   
+        </table>
+
+    </div>
+</div>
