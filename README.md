@@ -14,4 +14,7 @@ It supports only small files, uploading is done using `buffered model binding to
 
 ## Running
 
-Launch `.exe` or `.dll` file being in folder that contains `wwwroot` folder.
+Launch `.exe` or `.dll` file with --urls "`IP`" parameter, while being in folder that contains `wwwroot` folder.
+
+Change `IP` to addreses that you want to support for example "`http://192.168.1.2:5000`".
+You can add multiple IPs just add `;` between them.
